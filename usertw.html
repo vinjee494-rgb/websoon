@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>ilysb</title>
+  <style>
+    body {
+      background-color: grey;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .player {
+      background-color: #1f1f1f;
+      width: 320px;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    .cover {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .info {
+      margin-top: 15px;
+    }
+
+    .info h3 {
+      margin: 5px 0 0;
+      font-size: 18px;
+    }
+
+    .info p {
+      margin: 3px 0;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .progress-container {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 5px;
+      background-color: #444;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background-color: #1DB954;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 20px;
+    }
+
+    .controls button {
+      background-color: #1DB954;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .link-spotify {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .link-spotify a {
+      color: #1DB954;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="player">
+  <img class="cover" src="lany png.jpg" alt="Cover Lagu">
+
+  <div class="info">
+    <h3>ILYSB-STRIPPED</h3>
+    <p>LANY</p>
+  </div>
+
+  <div class="progress-container">
+    <span id="current-time">0:00</span>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <span id="total-time">1.00</span>
+  </div>
+
+  <div class="controls">
+    <button onclick="togglePlay()" id="playBtn">▶️</button>
+  </div>
+
+  <div class="link-spotify">
+    <a href="https://open.spotify.com/intl-id/track/3Dkvp3L4w0uJFYfIPa8E9H?si=RRZbJSI7S8qajz_PrtQpjg&nd=1&utm_medium=organic&product=open&%24full_url=https%3A%2F%2Fopen.spotify.com%2Ftrack%2F3Dkvp3L4w0uJFYfIPa8E9H%3Fsi%3DRRZbJSI7S8qajz_PrtQpjg&feature=organic&_branch_match_id=1416377647593635029&_branch_referrer=H4sIAAAAAAAAA7WN3QqCMBzFn2ZearnoCySikoouSq%2FqRqZuulzb%2BrslddGzN4MeIThw4Pw459TG6HYeBK1WhrOnT7T2BZdNsNCgSluYSGkqPRSOmBUisyCiuq8gvERh7NRj%2F9cu1M1FBkjROMfr5qHxYdQN7D4%2Bs92RTDezLcJxyxFeJ8kl36e7STq9k%2BsrO4I56Wv1fSJC5G7i%2F28oHMvS0aHHKDEWaKSgIpIX3hsoowBcVlkOqmspRKsa1I1%2BAH64KIYxAQAA" target="_blank">
+      Klick to open spotify🎧
+    </a>
+  </div>
+
+  <audio id="audio" src="lagu.mp3.m4a"></audio>
+</div>
+
+<script>
+  const audio = document.getElementById("audio");
+  const playBtn = document.getElementById("playBtn");
+  const progressBar = document.getElementById("progress");
+  const currentTimeText = document.getElementById("current-time");
+  const totalTimeText = document.getElementById("total-time");
+
+  function togglePlay() {
+    if (audio.paused) {
+      audio.play();
+      playBtn.textContent = "⏸";
+    } else {
+      audio.pause();
+      playBtn.textContent = "▶️";
+    }
+  }
+
+  audio.addEventListener("loadedmetadata", () => {
+    const duration = audio.duration;
+    const mins = Math.floor(duration / 60);
+    const secs = String(Math.floor(duration % 60)).padStart(2, '0');
+    totalTimeText.textContent = `${mins}:${secs}`;
+  });
+
+  audio.addEventListener("timeupdate", () => {
+    const current = audio.currentTime;
+    const duration = audio.duration;
+
+    const mins = Math.floor(current / 60);
+    const secs = String(Math.floor(current % 60)).padStart(2, '0');
+    currentTimeText.textContent = `${mins}:${secs}`;
+
+    const progressPercent = (current / duration) * 100;
+    progressBar.style.width = `${progressPercent}%`;
+  });
+
+  audio.addEventListener("ended", () => {
+    playBtn.textContent = "▶️";
+  });
+</script>
+
+</body>
+</html>
